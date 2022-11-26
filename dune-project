@@ -1,6 +1,6 @@
 (lang dune 3.5)
 
-(name birru_cli)
+(name birru)
 
 (generate_opam_files true)
 
@@ -16,7 +16,7 @@
 (documentation https://url/to/documentation)
 
 (package
- (name birru_cli)
+ (name birru)
  (synopsis "A short synopsis")
  (description "A longer description")
  (depends ocaml dune)
