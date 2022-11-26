@@ -21,6 +21,7 @@ let () =
   let body = Lwt_main.run body in
   let body = Yojson.Basic.Util.to_list body in
   let body = List.map parse_currency body in
+  let body = body |> List.sort (fun a b -> -compare a.selling b.selling) in
   let max_currency_col_width =
     List.fold_left
       (fun acc currency -> max acc (String.length currency.currency))
@@ -38,7 +39,6 @@ let () =
         max acc (String.length (string_of_float currency.buying)) )
       0 body
   in
-  let () = print_endline "" in
   let currency = "Currency" in
   let selling = "Selling" in
   let buying = "Buying" in
@@ -51,11 +51,12 @@ let () =
   let buying_padding =
     String.make (max_currency_col_width - String.length buying) ' '
   in
-  let () =
-    print_endline
+  let header = 
       ( "| "  ^ currency ^ currency_padding ^ " | " ^ selling_padding ^ selling
       ^ " | " ^ buying_padding ^ buying ^ " | " )
   in
+  let () = print_endline header in
+  let () = print_endline (String.make (String.length header) '-') in
   body
   |> List.iter (fun {selling; buying; currency} ->
          let padding =
