@@ -1,4 +1,4 @@
 (executable
  (public_name birru)
  (name main)
- (libraries cohttp-lwt-unix yojson))
+ (libraries cohttp-lwt-unix yojson ANSITerminal))
