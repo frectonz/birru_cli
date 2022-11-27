@@ -43,6 +43,8 @@ let print_currency
   let buying = make_padding max_buying_col_width buying ^ blueify buying in
   [currency; selling; buying] |> join "\t" |> print_endline
 
+let get_arg = try Some Sys.argv.(1) with Invalid_argument _ -> None
+
 let () =
   let body = Lwt_main.run body in
   let body = Yojson.Basic.Util.to_list body in
@@ -77,9 +79,22 @@ let () =
     ; buying_padding ^ blueify buying ]
     |> join "\t"
   in
-  let () = print_endline header in
-  let () = print_endline "" in
-  body
-  |> List.iter
-       (print_currency
-          (max_currency_col_width, max_selling_col_width, max_buying_col_width) )
+  let arg = get_arg in
+  print_endline header ;
+  print_endline "" ;
+  match arg with
+  | None ->
+      body
+      |> List.iter
+           (print_currency
+              ( max_currency_col_width
+              , max_selling_col_width
+              , max_buying_col_width ) )
+  | Some data ->
+    let element = body |> List.find_opt (fun {currency; _} -> currency = data ) in
+    match element with
+    | None -> print_endline "Unknown Currency"
+    | Some data -> print_currency
+              ( max_currency_col_width
+              , max_selling_col_width
+              , max_buying_col_width ) data 
