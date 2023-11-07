@@ -5,22 +5,15 @@
 (generate_opam_files true)
 
 (source
- (github username/reponame))
+ (github frectonz/birru_cli))
 
-(authors "Author Name")
+(authors "frectonz")
 
-(maintainers "Maintainer Name")
+(maintainers "frectonz")
 
-(license LICENSE)
-
-(documentation https://url/to/documentation)
+(license MIT)
 
 (package
  (name birru)
- (synopsis "A short synopsis")
- (description "A longer description")
- (depends ocaml dune)
- (tags
-  (topics "to describe" your project)))
-
-; See the complete stanza docs at https://dune.readthedocs.io/en/stable/dune-files.html#dune-project
+ (synopsis "A simple CLI tool the gets data from the Birru API.")
+ (depends ocaml dune cohttp-lwt-unix yojson ANSITerminal))

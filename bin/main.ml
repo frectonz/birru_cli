@@ -1,4 +1,4 @@
-let uri = Uri.of_string "https://birru.up.railway.app/"
+let uri = Uri.of_string "http://localhost:3000/"
 
 open Lwt
 
