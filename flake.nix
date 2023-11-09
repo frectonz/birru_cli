@@ -43,8 +43,8 @@
               birru-server = birru.packages.${pkgs.system}.default;
               birru-client = main;
             in
-            pkgs.writeShellScriptBin "birru-app" ''
-              ${birru-server}/bin/birru &
+            pkgs.writeShellScriptBin "birru" ''
+              ${birru-server}/bin/birru > /dev/null &
               server_pid=$!
 
               ${birru-client}/bin/birru
