@@ -3,8 +3,10 @@
     opam-nix.url = "github:tweag/opam-nix";
     flake-utils.url = "github:numtide/flake-utils";
     nixpkgs.follows = "opam-nix/nixpkgs";
+
+    birru.url = "github:frectonz/birru";
   };
-  outputs = { self, flake-utils, opam-nix, nixpkgs }:
+  outputs = { self, flake-utils, opam-nix, nixpkgs, birru }:
     let package = "birru";
     in flake-utils.lib.eachDefaultSystem (system:
       let
@@ -33,7 +35,22 @@
       in
       {
         legacyPackages = scope';
-        packages.default = main;
+
+        packages = {
+          default = main;
+          birru =
+            let
+              birru-server = birru.packages.${pkgs.system}.default;
+              birru-client = main;
+            in
+            pkgs.writeShellScriptBin "birru-app" ''
+              ${birru-server}/bin/birru &
+              server_pid=$!
+
+              ${birru-client}/bin/birru
+              kill $server_pid
+            '';
+        };
 
         devShells.default = pkgs.mkShell {
           inputsFrom = [ main ];
